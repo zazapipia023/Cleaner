@@ -1,17 +1,8 @@
 import os
-import time
+import urllib.request
 import shutil
 
-paths_not_to_clean = [
-    r"D:\Games\Epic Games\Fortnite", r"D:\Games\Epic Games\DirectXRedist",
-    r"D:\Games\Epic Games\GenshinImpact", r"D:\Games\Epic Games\Launcher",
-    r"D:\Games\Steam\steamapps\common\Grand Theft Auto V",
-    r"D:\Games\Steam\steamapps\common\dota 2 beta",
-    r"D:\Games\Steam\steamapps\common\Counter-Strike Global Offensive",
-    r"D:\Games\Steam\steamapps\common\PUBG",
-    r"D:\Games\Steam\steamapps\common\Apex Legends",
-    r"D:\Games\Steam\steamapps\common\Call of Duty HQ"
-]
+paths_not_to_clean = []
 
 
 def clean_dir(directory):
@@ -47,16 +38,17 @@ def clean_steam_downloading_content():
     clean_dir(dir_steam_downloading)
 
 
-def clean_useless_files():
-    paths_to_clean = [r"D:\Games\Epic Games", r"D:\Games\Steam\steamapps\common"]
+def clean_steam_games():
+    paths_to_clean = [r"D:\Games\Steam\steamapps\common"]
 
     for directory in paths_to_clean:
         for file in os.listdir(directory):
             file_path = os.path.join(directory, file)
-            if file_path in paths_not_to_clean:
+            file_name = file_path.replace('D:\\Games\\Steam\\steamapps\\common\\', '')
+            if file_name in paths_not_to_clean:
                 continue
             else:
-                if is_file_obsolete(file_path) and os.path.isdir(file_path) and os.path.exists(file_path):
+                if os.path.isdir(file_path) and os.path.exists(file_path):
                     shutil.rmtree(file_path)
                     print(f"Deleted directory {file_path}")
                 if os.path.isfile(file_path) and os.path.exists(file_path):
@@ -64,22 +56,35 @@ def clean_useless_files():
                     print(f"Deleted file {file_path}")
 
 
-def is_file_obsolete(file_path):
+def get_games_not_to_clean():
+    file_id = "1Ht8-2e7u69lbRYoU4VQR2XJUbuz2DgwV"
+    url = f"https://drive.google.com/uc?id={file_id}"
+
+    file_name = "no_clean.txt"
+
     try:
-            file_stat = os.stat(file_path)
-            last_access_time = file_stat.st_atime
-            file_age_in_days = (time.time() - last_access_time) / (
-                    24 * 60 * 60)
-            max_file_age_in_days = 15
-            return file_age_in_days > max_file_age_in_days or os.path.getsize(
-                file_path) == 0
+        urllib.request.urlretrieve(url, file_name)
+        print(f"Файл успешно скачан: {file_name}")
     except Exception as e:
-        print(f"Ошибка при проверке файла {file_path}: {e}")
-        return False
+        print(f"Ошибка при скачивании файла: {e}")
 
 
-clean_chrome_downloads()
-clean_workshop_maps()
-clean_steam_workshop_content()
-clean_steam_downloading_content()
-# clean_useless_files()
+def read_file(file_name):
+    try:
+        with open(file_name, "r") as file:
+            for line in file:
+                line_data = line.strip()
+                paths_not_to_clean.append(line_data)
+    except FileNotFoundError:
+        print(f"Файл '{file_name}' не найден.")
+    except Exception as e:
+        print(f"Ошибка при чтении файла: {e}")
+
+
+get_games_not_to_clean()
+read_file("no_clean.txt")
+# clean_chrome_downloads()
+# clean_workshop_maps()
+# clean_steam_workshop_content()
+# clean_steam_downloading_content()
+clean_steam_games()
