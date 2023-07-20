@@ -38,13 +38,16 @@ def clean_steam_downloading_content():
     clean_dir(dir_steam_downloading)
 
 
-def clean_steam_games():
-    paths_to_clean = [r"D:\Games\Steam\steamapps\common"]
+def clean_games():
+    paths_to_clean = [r"D:\Games\Steam\steamapps\common", r"D:\Games\Epic Games"]
 
     for directory in paths_to_clean:
         for file in os.listdir(directory):
             file_path = os.path.join(directory, file)
-            file_name = file_path.replace('D:\\Games\\Steam\\steamapps\\common\\', '')
+            if r"D:\Games\Steam\steamapps\common" in file_path:
+                file_name = file_path.replace('D:\\Games\\Steam\\steamapps\\common\\', '')
+            if r"D:\Games\Epic Games" in file_path:
+                file_name = file_path.replace('D:\\Games\\Epic Games\\', '')
             if file_name in paths_not_to_clean:
                 continue
             else:
@@ -83,8 +86,8 @@ def read_file(file_name):
 
 get_games_not_to_clean()
 read_file("no_clean.txt")
-# clean_chrome_downloads()
-# clean_workshop_maps()
-# clean_steam_workshop_content()
-# clean_steam_downloading_content()
-clean_steam_games()
+clean_chrome_downloads()
+clean_workshop_maps()
+clean_steam_workshop_content()
+clean_steam_downloading_content()
+clean_games()
