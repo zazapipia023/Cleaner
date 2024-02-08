@@ -8,23 +8,20 @@ paths_not_to_clean = []
 def clean_dir(directory):
     for file in os.listdir(directory):
         file_path = os.path.join(directory, file)
-        if os.path.isdir(file_path) and os.path.exists(file_path):
-            shutil.rmtree(file_path)
-            print(f"Deleted directory {file_path}")
-        if os.path.isfile(file_path) and os.path.exists(file_path):
-            os.remove(file_path)
-            print(f"Deleted file {file_path}")
+        try:
+            if os.path.isdir(file_path) and os.path.exists(file_path):
+                shutil.rmtree(file_path)
+                print(f"Deleted directory {file_path}")
+            if os.path.isfile(file_path) and os.path.exists(file_path):
+                os.remove(file_path)
+                print(f"Deleted file {file_path}")
+        except OSError as e:
+            print(f"Error on delete {file_path}: {e}")
 
 
 def clean_chrome_downloads():
     dir_chrome_downloads = r"D:\ChromeDownloads"
     clean_dir(dir_chrome_downloads)
-
-
-def clean_workshop_maps():
-    dir_workshop_maps = r"D:\Games\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\maps\workshop"
-    clean_dir(dir_workshop_maps)
-
 
 def clean_steam_workshop_content():
     dir_workshop_content = r"D:\Games\Steam\steamapps\workshop\content"
@@ -51,12 +48,15 @@ def clean_games():
             if file_name in paths_not_to_clean:
                 continue
             else:
-                if os.path.isdir(file_path) and os.path.exists(file_path):
-                    shutil.rmtree(file_path)
-                    print(f"Deleted directory {file_path}")
-                if os.path.isfile(file_path) and os.path.exists(file_path):
-                    os.remove(file_path)
-                    print(f"Deleted file {file_path}")
+                try:
+                    if os.path.isdir(file_path) and os.path.exists(file_path):
+                        shutil.rmtree(file_path)
+                        print(f"Deleted directory {file_path}")
+                    if os.path.isfile(file_path) and os.path.exists(file_path):
+                        os.remove(file_path)
+                        print(f"Deleted file {file_path}")
+                except OSError as e:
+                    print(f"Error on delete {file_path}: {e}")
 
 
 def get_games_not_to_clean():
@@ -87,7 +87,8 @@ def read_file(file_name):
 get_games_not_to_clean()
 read_file("no_clean.txt")
 clean_chrome_downloads()
-clean_workshop_maps()
 clean_steam_workshop_content()
 clean_steam_downloading_content()
 clean_games()
+
+input("Нажмите Enter для выхода...")
