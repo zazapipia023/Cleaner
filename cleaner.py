@@ -9,6 +9,7 @@ def clean_dir(directory):
     for file in os.listdir(directory):
         file_path = os.path.join(directory, file)
         try:
+            print(f"Deleting {file_path}")
             if os.path.isdir(file_path) and os.path.exists(file_path):
                 shutil.rmtree(file_path)
                 print(f"Deleted directory {file_path}")
@@ -29,6 +30,7 @@ def clean_root_dir():
             continue
         else:
             try:
+                print(f"Deleting {file_path}")
                 if os.path.isdir(file_path) and os.path.exists(file_path):
                     shutil.rmtree(file_path)
                     print(f"Deleted directory {file_path}")
@@ -38,11 +40,13 @@ def clean_root_dir():
             except OSError as e:
                 print(f"Error on delete {file_path}: {e}")
 
+
 def clean_games_root_dir():
     games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
-                 r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
-                 r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
-                 r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki", r"D:\Games\Ubisoft Game Launcher",
+                       r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
+                       r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
+                       r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
+                       r"D:\Games\Ubisoft Game Launcher",
                        r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
     root_dir = r"D:\Games"
     for file in os.listdir(root_dir):
@@ -51,6 +55,7 @@ def clean_games_root_dir():
             continue
         else:
             try:
+                print(f"Deleting {file_path}")
                 if os.path.isdir(file_path) and os.path.exists(file_path):
                     shutil.rmtree(file_path)
                     print(f"Deleted directory {file_path}")
@@ -92,6 +97,7 @@ def clean_games():
                 continue
             else:
                 try:
+                    print(f"Deleting {file_path}")
                     if os.path.isdir(file_path) and os.path.exists(file_path):
                         shutil.rmtree(file_path)
                         print(f"Deleted directory {file_path}")
@@ -134,6 +140,6 @@ clean_steam_workshop_content()
 clean_steam_downloading_content()
 clean_games()
 clean_games_root_dir()
-clean_games_root_dir()
+clean_root_dir()
 
 input("Нажмите Enter для выхода...")
