@@ -1,6 +1,7 @@
 import os
 import urllib.request
 import shutil
+import psutil
 
 paths_not_to_clean = []
 
@@ -9,15 +10,15 @@ def clean_dir(directory):
     for file in os.listdir(directory):
         file_path = os.path.join(directory, file)
         try:
-            print(f"Deleting {file_path}")
+            print(f"Удаление {file_path}")
             if os.path.isdir(file_path) and os.path.exists(file_path):
                 shutil.rmtree(file_path)
-                print(f"Deleted directory {file_path}")
+                print(f"Удалена папка {file_path}")
             if os.path.isfile(file_path) and os.path.exists(file_path):
                 os.remove(file_path)
-                print(f"Deleted file {file_path}")
+                print(f"Удален файл {file_path}")
         except OSError as e:
-            print(f"Error on delete {file_path}: {e}")
+            print(f"Ошибка удаления {file_path}: {e}")
 
 
 def clean_root_dir():
@@ -30,15 +31,15 @@ def clean_root_dir():
             continue
         else:
             try:
-                print(f"Deleting {file_path}")
+                print(f"Удаление {file_path}")
                 if os.path.isdir(file_path) and os.path.exists(file_path):
                     shutil.rmtree(file_path)
-                    print(f"Deleted directory {file_path}")
+                    print(f"Удалена папка {file_path}")
                 if os.path.isfile(file_path) and os.path.exists(file_path):
                     os.remove(file_path)
-                    print(f"Deleted file {file_path}")
+                    print(f"Удален файл {file_path}")
             except OSError as e:
-                print(f"Error on delete {file_path}: {e}")
+                print(f"Ошибка удаления {file_path}: {e}")
 
 
 def clean_games_root_dir():
@@ -55,15 +56,15 @@ def clean_games_root_dir():
             continue
         else:
             try:
-                print(f"Deleting {file_path}")
+                print(f"Удаление {file_path}")
                 if os.path.isdir(file_path) and os.path.exists(file_path):
                     shutil.rmtree(file_path)
-                    print(f"Deleted directory {file_path}")
+                    print(f"Удалена папка {file_path}")
                 if os.path.isfile(file_path) and os.path.exists(file_path):
                     os.remove(file_path)
-                    print(f"Deleted file {file_path}")
+                    print(f"Удален файл {file_path}")
             except OSError as e:
-                print(f"Error on delete {file_path}: {e}")
+                print(f"Ошибка удаления {file_path}: {e}")
 
 
 def clean_chrome_downloads():
@@ -97,15 +98,15 @@ def clean_games():
                 continue
             else:
                 try:
-                    print(f"Deleting {file_path}")
+                    print(f"Удаление {file_path}")
                     if os.path.isdir(file_path) and os.path.exists(file_path):
                         shutil.rmtree(file_path)
-                        print(f"Deleted directory {file_path}")
+                        print(f"Удалена папка {file_path}")
                     if os.path.isfile(file_path) and os.path.exists(file_path):
                         os.remove(file_path)
-                        print(f"Deleted file {file_path}")
+                        print(f"Удален файл {file_path}")
                 except OSError as e:
-                    print(f"Error on delete {file_path}: {e}")
+                    print(f"Ошибка удаления {file_path}: {e}")
 
 
 def get_games_not_to_clean():
@@ -132,14 +133,50 @@ def read_file(file_name):
     except Exception as e:
         print(f"Ошибка при чтении файла: {e}")
 
+x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
+
+def get_disk_info(disk):
+    try:
+        disk_usage = psutil.disk_usage(disk)
+        total_space = disk_usage.total
+        free_space = disk_usage.free
+        return total_space, free_space
+    except FileNotFoundError:
+        return None, None
+
+total_space, free_space = get_disk_info(r"D:")
+
+print("Перед очисткой:")
+if total_space is not None and free_space is not None:
+    print(f"Общий размер диска D: {total_space / (1024 ** 3):.2f} GB")  # Переводим в гигабайты
+    print(f"Свободное пространство на диске D: {free_space / (1024 ** 3):.2f} GB")  # Переводим в гигабайты
+else:
+    print("Диск D не найден.")
 
 get_games_not_to_clean()
 read_file("no_clean.txt")
-clean_chrome_downloads()
-clean_steam_workshop_content()
-clean_steam_downloading_content()
-clean_games()
-clean_games_root_dir()
-clean_root_dir()
+
+if x == 1:
+    clean_chrome_downloads()
+    clean_steam_workshop_content()
+    clean_steam_downloading_content()
+    clean_games()
+    clean_games_root_dir()
+    clean_root_dir()
+if x == 2:
+    clean_chrome_downloads()
+    clean_steam_downloading_content()
+    clean_games()
+    clean_games_root_dir()
+    clean_root_dir()
+
+total_space, free_space = get_disk_info(r"D:")
+
+print("После очистки")
+if total_space is not None and free_space is not None:
+    print(f"Общий размер диска D: {total_space / (1024 ** 3):.2f} GB")  # Переводим в гигабайты
+    print(f"Свободное пространство на диске D: {free_space / (1024 ** 3):.2f} GB")  # Переводим в гигабайты
+else:
+    print("Диск D не найден.")
 
 input("Нажмите Enter для выхода...")
