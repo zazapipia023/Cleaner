@@ -1,9 +1,10 @@
 import os
 import urllib.request
 import shutil
+
 import psutil
 
-paths_not_to_clean = []
+import googledoc
 
 
 def clean_dir(directory):
@@ -86,6 +87,7 @@ def clean_steam_downloading_content():
 
 def clean_games():
     paths_to_clean = [r"D:\Games\Steam\steamapps\common", r"D:\Games\Epic Games"]
+    paths_not_to_clean = googledoc.get_paths_from_doc()
 
     for directory in paths_to_clean:
         for file in os.listdir(directory):
@@ -122,18 +124,19 @@ def get_games_not_to_clean():
         print(f"Ошибка при скачивании файла: {e}")
 
 
-def read_file(file_name):
-    try:
-        with open(file_name, "r") as file:
-            for line in file:
-                line_data = line.strip()
-                paths_not_to_clean.append(line_data)
-    except FileNotFoundError:
-        print(f"Файл '{file_name}' не найден.")
-    except Exception as e:
-        print(f"Ошибка при чтении файла: {e}")
+# def read_file(file_name):
+#     try:
+#         with open(file_name, "r") as file:
+#             for line in file:
+#                 line_data = line.strip()
+#                 paths_not_to_clean.append(line_data)
+#     except FileNotFoundError:
+#         print(f"Файл '{file_name}' не найден.")
+#     except Exception as e:
+#         print(f"Ошибка при чтении файла: {e}")
 
 x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
+
 
 def get_disk_info(disk):
     try:
@@ -144,6 +147,7 @@ def get_disk_info(disk):
     except FileNotFoundError:
         return None, None
 
+
 total_space, free_space = get_disk_info(r"D:")
 
 print("Перед очисткой:")
@@ -153,18 +157,15 @@ if total_space is not None and free_space is not None:
 else:
     print("Диск D не найден.")
 
-get_games_not_to_clean()
-read_file("no_clean.txt")
-
-if x == 1:
-    clean_chrome_downloads()
+if x == '1':
+    # clean_chrome_downloads()
     clean_steam_workshop_content()
     clean_steam_downloading_content()
     clean_games()
     clean_games_root_dir()
     clean_root_dir()
-if x == 2:
-    clean_chrome_downloads()
+if x == '2':
+    # clean_chrome_downloads()
     clean_steam_downloading_content()
     clean_games()
     clean_games_root_dir()
