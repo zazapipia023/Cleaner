@@ -1,6 +1,7 @@
 import os
 import shutil
 import psutil
+import mongo_db_util
 
 
 def clean_dir(directory):
@@ -59,13 +60,13 @@ def clean_games_root_dir():
 
 def clean_egs_games():
     folder_to_clean = r"D:\Games\Epic Games"
-    games_not_to_clean = []  # get games from MongoDB
+    games_not_to_clean = mongo_db_util.get_egs_games("141-0")
     clean_dir_with_exceptions(folder_to_clean, games_not_to_clean, 'D:\\Games\\Epic Games\\')
 
 
 def clean_steam_games():
     folder_to_clean = r"D:\Games\Steam\steamapps\common"
-    games_not_to_clean = []  # get games from MongoDB
+    games_not_to_clean = mongo_db_util.get_steam_games("141-0")
     clean_dir_with_exceptions(folder_to_clean, games_not_to_clean, 'D:\\Games\\Steam\\steamapps\\common\\')
 
 
@@ -86,9 +87,6 @@ def clean_steam_downloading_content():
     clean_dir(folder_to_clean)
 
 
-x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
-
-
 def get_disk_info(disk):
     try:
         disk_usage = psutil.disk_usage(disk)
@@ -98,6 +96,8 @@ def get_disk_info(disk):
     except FileNotFoundError:
         return None, None
 
+
+x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
 
 total_space, free_space = get_disk_info(r"D:")
 
@@ -109,13 +109,13 @@ else:
     print("Диск D не найден.")
 
 if x == '1':
-    # clean_chrome_downloads()
+    clean_chrome_downloads()
     clean_steam_workshop_content()
     clean_steam_downloading_content()
     clean_games_root_dir()
     clean_root_dir()
 if x == '2':
-    # clean_chrome_downloads()
+    clean_chrome_downloads()
     clean_steam_downloading_content()
     clean_games_root_dir()
     clean_root_dir()
