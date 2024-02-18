@@ -18,10 +18,12 @@ def clean_dir(directory):
             print(f"Ошибка удаления {file_path}: {e}")
 
 
-def clean_dir_with_exceptions(directory, exceptions):
+def clean_dir_with_exceptions(directory, exceptions, games_folder='none'):
     for dir_folder in os.listdir(directory):
         dir_path = os.path.join(directory, dir_folder)
-        dir_name = dir_path.replace('D:\\Games\\Epic Games\\', '')
+        dir_name = dir_path
+        if games_folder != 'none':
+            dir_name = dir_path.replace(games_folder, '')
         if dir_name in exceptions:
             continue
         else:
@@ -54,16 +56,18 @@ def clean_games_root_dir():
     folder_to_clean = r"D:\Games"
     clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
 
+
 def clean_egs_games():
     folder_to_clean = r"D:\Games\Epic Games"
     games_not_to_clean = []  # get games from MongoDB
-    clean_dir(folder_to_clean, games_not_to_clean)
+    clean_dir_with_exceptions(folder_to_clean, games_not_to_clean, 'D:\\Games\\Epic Games\\')
 
 
 def clean_steam_games():
     folder_to_clean = r"D:\Games\Steam\steamapps\common"
     games_not_to_clean = []  # get games from MongoDB
-    clean_dir(folder_to_clean, games_not_to_clean)
+    clean_dir_with_exceptions(folder_to_clean, games_not_to_clean, 'D:\\Games\\Steam\\steamapps\\common\\')
+
 
 def clean_chrome_downloads():
     folder_to_clean = r"D:\ChromeDownloads"
