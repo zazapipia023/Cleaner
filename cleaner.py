@@ -1,10 +1,6 @@
 import os
-import urllib.request
 import shutil
-
 import psutil
-
-import googledoc
 
 
 def clean_dir(directory):
@@ -22,25 +18,30 @@ def clean_dir(directory):
             print(f"Ошибка удаления {file_path}: {e}")
 
 
-def clean_root_dir():
-    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
-                 r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
-    root_dir = r"D:"
-    for file in os.listdir(root_dir):
-        file_path = os.path.join(root_dir, file)
-        if file_path in root_dirs:
+def clean_dir_with_exceptions(directory, exceptions):
+    for dir_folder in os.listdir(directory):
+        dir_path = os.path.join(directory, dir_folder)
+        dir_name = dir_path.replace('D:\\Games\\Epic Games\\', '')
+        if dir_name in exceptions:
             continue
         else:
             try:
-                print(f"Удаление {file_path}")
-                if os.path.isdir(file_path) and os.path.exists(file_path):
-                    shutil.rmtree(file_path)
-                    print(f"Удалена папка {file_path}")
-                if os.path.isfile(file_path) and os.path.exists(file_path):
-                    os.remove(file_path)
-                    print(f"Удален файл {file_path}")
+                print(f"Удаление {dir_path}")
+                if os.path.isdir(dir_path) and os.path.exists(dir_path):
+                    shutil.rmtree(dir_path)
+                    print(f"Удалена папка {dir_path}")
+                if os.path.isfile(dir_path) and os.path.exists(dir_path):
+                    os.remove(dir_path)
+                    print(f"Удален файл {dir_path}")
             except OSError as e:
-                print(f"Ошибка удаления {file_path}: {e}")
+                print(f"Ошибка удаления {dir_path}: {e}")
+
+
+def clean_root_dir():
+    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
+                 r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
+    folder_to_clean = r"D:"
+    clean_dir_with_exceptions(folder_to_clean, root_dirs)
 
 
 def clean_games_root_dir():
@@ -50,90 +51,36 @@ def clean_games_root_dir():
                        r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
                        r"D:\Games\Ubisoft Game Launcher",
                        r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
-    root_dir = r"D:\Games"
-    for file in os.listdir(root_dir):
-        file_path = os.path.join(root_dir, file)
-        if file_path in games_root_dirs:
-            continue
-        else:
-            try:
-                print(f"Удаление {file_path}")
-                if os.path.isdir(file_path) and os.path.exists(file_path):
-                    shutil.rmtree(file_path)
-                    print(f"Удалена папка {file_path}")
-                if os.path.isfile(file_path) and os.path.exists(file_path):
-                    os.remove(file_path)
-                    print(f"Удален файл {file_path}")
-            except OSError as e:
-                print(f"Ошибка удаления {file_path}: {e}")
+    folder_to_clean = r"D:\Games"
+    clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
 
+def clean_egs_games():
+    folder_to_clean = r"D:\Games\Epic Games"
+    games_not_to_clean = []  # get games from MongoDB
+    clean_dir(folder_to_clean, games_not_to_clean)
+
+
+def clean_steam_games():
+    folder_to_clean = r"D:\Games\Steam\steamapps\common"
+    games_not_to_clean = []  # get games from MongoDB
+    clean_dir(folder_to_clean, games_not_to_clean)
 
 def clean_chrome_downloads():
-    dir_chrome_downloads = r"D:\ChromeDownloads"
-    clean_dir(dir_chrome_downloads)
+    folder_to_clean = r"D:\ChromeDownloads"
+    clean_dir(folder_to_clean)
 
 
 def clean_steam_workshop_content():
-    dir_workshop_content = r"D:\Games\Steam\steamapps\workshop\content"
-    for dir_content in os.listdir(dir_workshop_content):
-        full_path = os.path.join(dir_workshop_content, dir_content)
+    folder_to_clean = r"D:\Games\Steam\steamapps\workshop\content"
+    for dir_content in os.listdir(folder_to_clean):
+        full_path = os.path.join(folder_to_clean, dir_content)
         clean_dir(full_path)
 
 
 def clean_steam_downloading_content():
-    dir_steam_downloading = r"D:\Games\Steam\steamapps\downloading"
-    clean_dir(dir_steam_downloading)
+    folder_to_clean = r"D:\Games\Steam\steamapps\downloading"
+    clean_dir(folder_to_clean)
 
-
-def clean_games():
-    paths_to_clean = [r"D:\Games\Steam\steamapps\common", r"D:\Games\Epic Games"]
-    paths_not_to_clean = googledoc.get_paths_from_doc()
-
-    for directory in paths_to_clean:
-        for file in os.listdir(directory):
-            file_path = os.path.join(directory, file)
-            if r"D:\Games\Steam\steamapps\common" in file_path:
-                file_name = file_path.replace('D:\\Games\\Steam\\steamapps\\common\\', '')
-            if r"D:\Games\Epic Games" in file_path:
-                file_name = file_path.replace('D:\\Games\\Epic Games\\', '')
-            if file_name in paths_not_to_clean:
-                continue
-            else:
-                try:
-                    print(f"Удаление {file_path}")
-                    if os.path.isdir(file_path) and os.path.exists(file_path):
-                        shutil.rmtree(file_path)
-                        print(f"Удалена папка {file_path}")
-                    if os.path.isfile(file_path) and os.path.exists(file_path):
-                        os.remove(file_path)
-                        print(f"Удален файл {file_path}")
-                except OSError as e:
-                    print(f"Ошибка удаления {file_path}: {e}")
-
-
-def get_games_not_to_clean():
-    file_id = "1Ht8-2e7u69lbRYoU4VQR2XJUbuz2DgwV"
-    url = f"https://drive.google.com/uc?id={file_id}"
-
-    file_name = "no_clean.txt"
-
-    try:
-        urllib.request.urlretrieve(url, file_name)
-        print(f"Файл успешно скачан: {file_name}")
-    except Exception as e:
-        print(f"Ошибка при скачивании файла: {e}")
-
-
-# def read_file(file_name):
-#     try:
-#         with open(file_name, "r") as file:
-#             for line in file:
-#                 line_data = line.strip()
-#                 paths_not_to_clean.append(line_data)
-#     except FileNotFoundError:
-#         print(f"Файл '{file_name}' не найден.")
-#     except Exception as e:
-#         print(f"Ошибка при чтении файла: {e}")
 
 x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
 
@@ -161,13 +108,11 @@ if x == '1':
     # clean_chrome_downloads()
     clean_steam_workshop_content()
     clean_steam_downloading_content()
-    clean_games()
     clean_games_root_dir()
     clean_root_dir()
 if x == '2':
     # clean_chrome_downloads()
     clean_steam_downloading_content()
-    clean_games()
     clean_games_root_dir()
     clean_root_dir()
 
