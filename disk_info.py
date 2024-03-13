@@ -6,33 +6,37 @@ hostname = socket.gethostname()
 IP = socket.gethostbyname(hostname)
 
 
-def get_disk_info(disk):
+def get_total_disk_space(disk):
     try:
         disk_usage = psutil.disk_usage(disk)
         total_space = disk_usage.total
-        free_space = disk_usage.free
-        return total_space, free_space
+        return total_space
     except FileNotFoundError:
-        return None, None
+        return None
 
 
-def send_disk_info():
-    total_space, free_space = get_disk_info(r"D:")
+def get_free_disk_space(disk):
+    try:
+        disk_usage = psutil.disk_usage(disk)
+        free_space = disk_usage.free
+        return free_space
+    except FileNotFoundError:
+        return None
+
+
+def send_disk_info(space_before, space_after):
+    total_space = get_total_disk_space(r"D:")
     total_space = int(total_space / (1024 ** 3))
-    free_space = int(free_space / (1024 ** 3))
+    space_before = int(space_before / (1024 ** 3))
+    space_after = int(space_after / (1024 ** 3))
 
-    myobj = {'totals': total_space,
-             'free': free_space,
-             'pc': hostname,
-             'ip': IP}
-    print(myobj)
+    report = {'club_id': "141-0",
+              'totals': total_space,
+              'free_b': space_before,
+              'free_a': space_after,
+              'pc': hostname,
+              'ip': IP}
 
-    if total_space is not None and free_space is not None:
-        info = (f"Общий размер диска D: {total_space} GB\n"
-                f"Свободное пространство на диске D: {free_space} GB")
-        print(info)
-        URL = f"http://localhost:8080/sendReport"
-        r = requests.post(URL, json=myobj)
-        print(r.text)
-    else:
-        print("Диск D не найден.")
+    url = f"http://localhost:8080/sendReport"
+    r = requests.post(url, json=report)
+    print("Report status: " + r.text)

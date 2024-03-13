@@ -106,22 +106,26 @@ def clean_steam_downloading_content():
     clean_dir(folder_to_clean)
 
 
-clean_steam_games()
+before_clean_space = disk_info.get_free_disk_space("D:\\")
+x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
 
-# x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
-#
-# if '1' == x:
-#     clean_chrome_downloads()
-#     clean_steam_workshop_content()
-#     clean_steam_downloading_content()
-#     clean_games_root_dir()
-#     clean_root_dir()
-#     disk_info.send_disk_info()
-# if '2' == x:
-#     clean_chrome_downloads()
-#     clean_steam_downloading_content()
-#     clean_games_root_dir()
-#     clean_root_dir()
-#     disk_info.send_disk_info()
+if '1' == x:
+    clean_chrome_downloads()
+    clean_steam_workshop_content()
+    clean_steam_downloading_content()
+    clean_steam_games()
+    clean_egs_games()
+    clean_games_root_dir()
+    clean_root_dir()
+if '2' == x:
+    clean_chrome_downloads()
+    clean_steam_downloading_content()
+    clean_steam_games()
+    clean_egs_games()
+    clean_games_root_dir()
+    clean_root_dir()
+
+after_clean_space = disk_info.get_free_disk_space("D:\\")
+disk_info.send_disk_info(before_clean_space, after_clean_space)
 
 input("Нажмите Enter для выхода...")
