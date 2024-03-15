@@ -1,7 +1,7 @@
 import os
 import shutil
+
 import mongo_db_util
-import disk_info
 
 
 def clean_dir(directory):
@@ -95,7 +95,7 @@ def clean_chrome_downloads():
 
 
 def clean_steam_workshop_content():
-    folder_to_clean = r"D:\Games\Steam\steamapps\workshop\content"
+    folder_to_clean = r"D:\Games\Steam\steamapps\workshop"
     for dir_content in os.listdir(folder_to_clean):
         full_path = os.path.join(folder_to_clean, dir_content)
         clean_dir(full_path)
@@ -106,10 +106,7 @@ def clean_steam_downloading_content():
     clean_dir(folder_to_clean)
 
 
-before_clean_space = disk_info.get_free_disk_space("D:\\")
-x = input("1 - Полная очистка\n2 - Очистка без удаления steam workshop файлов\n")
-
-if '1' == x:
+def clean():
     clean_chrome_downloads()
     clean_steam_workshop_content()
     clean_steam_downloading_content()
@@ -117,15 +114,3 @@ if '1' == x:
     clean_egs_games()
     clean_games_root_dir()
     clean_root_dir()
-if '2' == x:
-    clean_chrome_downloads()
-    clean_steam_downloading_content()
-    clean_steam_games()
-    clean_egs_games()
-    clean_games_root_dir()
-    clean_root_dir()
-
-after_clean_space = disk_info.get_free_disk_space("D:\\")
-disk_info.send_disk_info(before_clean_space, after_clean_space)
-
-input("Нажмите Enter для выхода...")
