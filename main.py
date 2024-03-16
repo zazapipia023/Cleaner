@@ -3,7 +3,7 @@ import disk_info
 import subscription
 
 if subscription.check_subscription():
-    print("Подписка истекла")
+    print("Действие подписки закончилось, требуется продлить подписку\n")
 else:
     before_clean_space = disk_info.get_free_disk_space("D:\\")
     cleaner.clean()
