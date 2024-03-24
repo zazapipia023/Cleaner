@@ -1,9 +1,9 @@
 from pymongo import MongoClient
-import logging.config
+from logging_config import logger
 
 
 def get_database():
-    connection_string = ("mongodb url here")
-    logging.info("Connecting do MongoDB")
+    connection_string = ("")
+    logger.info("Connecting do MongoDB")
     client = MongoClient(connection_string)
     return client['colizeum_db']

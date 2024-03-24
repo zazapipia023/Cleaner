@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 import mongo_db_util
-import logging.config
+from logging_config import logger
 
 
 def check_subscription():
     purchase_date = mongo_db_util.get_subscription("68-1")
-    logging.info("Got subscription date from club: " + purchase_date)
+    logger.info("Got subscription date from club")
     current_date = datetime.now()
     expiration_date = purchase_date + timedelta(days=30)
 
