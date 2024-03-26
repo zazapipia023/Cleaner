@@ -44,7 +44,7 @@ def send_disk_info(space_before, space_after):
               'pc': hostname,
               'ip': IP}
 
-    url = f"http://81.200.145.178:8080/sendReport"
+    url = f"http://81.200.145.178:8080/report"
     logger.info("Sending report")
     r = requests.post(url, json=report)
     logger.info("Sent report about cleaning. Status: " + r.text)

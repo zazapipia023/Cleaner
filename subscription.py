@@ -1,12 +1,9 @@
-from datetime import datetime, timedelta
-import mongo_db_util
 from logging_config import logger
+import requests
 
 
 def check_subscription():
-    purchase_date = mongo_db_util.get_subscription("68-1")
-    logger.info("Got subscription date from club")
-    current_date = datetime.now()
-    expiration_date = purchase_date + timedelta(days=30)
-
-    return current_date > expiration_date
+    logger.info("Checking subscription")
+    url = f"http://81.200.145.178:8080/subscription?clubId=141-0"
+    r = requests.get(url)
+    return r.text

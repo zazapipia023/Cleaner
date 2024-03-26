@@ -1,7 +1,7 @@
 import os
 import shutil
+import exceptions
 from logging_config import logger
-import mongo_db_util
 
 
 def clean_dir(directory):
@@ -19,12 +19,12 @@ def clean_dir(directory):
             logger.error(f"Error on delete, path: {file_path}: {e}")
 
 
-def clean_dir_with_exceptions(directory, exceptions, games_folder='none'):
+def clean_dir_with_exceptions(directory, exceptions, content_folder='none'):
     for dir_folder in os.listdir(directory):
         dir_path = os.path.join(directory, dir_folder)
         dir_name = dir_path
-        if games_folder != 'none':
-            dir_name = dir_path.replace(games_folder, '')
+        if content_folder != 'none':
+            dir_name = dir_path.replace(content_folder, '')
         if dir_name in exceptions:
             continue
         else:
@@ -62,20 +62,21 @@ def clean_games_root_dir():
     logger.info("Cleaning games root directory is complete")
 
 
-def clean_egs_games():
+def clean_egs_content():
     logger.info("Cleaning EGS games has started")
     folder_to_clean = r"D:\Games\Epic Games"
-    games_not_to_clean = mongo_db_util.get_egs_games("141-0")
-    clean_dir_with_exceptions(folder_to_clean, games_not_to_clean, 'D:\\Games\\Epic Games\\')
+    content_not_to_clean = exceptions.get_egs_exceptions()
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Epic Games\\')
     logger.info("Cleaning EGS games is complete")
 
 
-def clean_steam_games():
+def clean_steam_content():
     logger.info("Cleaning steam games has started")
     folder_to_clean = r"D:\Games\Steam\steamapps\common"
-    games_not_to_clean = mongo_db_util.get_steam_games("141-0")
-    clean_dir_with_exceptions(folder_to_clean, games_not_to_clean.keys(), 'D:\\Games\\Steam\\steamapps\\common\\')
-    clean_manifest_files(games_not_to_clean.values())
+    content_not_to_clean = exceptions.get_steam_exceptions()
+    manifest_not_to_clean = exceptions.get_manifest_exceptions()
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Steam\\steamapps\\common\\')
+    clean_manifest_files(manifest_not_to_clean)
     logger.info("Cleaning steam games is complete")
 
 
@@ -86,10 +87,13 @@ def clean_manifest_files(acf_arr):
         is_delete = True
         file_path = os.path.join(directory, file)
         for acf in acf_arr:
+            logger.info(f"Checking is {acf} in {file_path}")
             if acf in file_path:
+                logger.info(f"{acf} in exceptions, can't be deleted")
                 is_delete = False
                 break
         if is_delete:
+            logger.info(f"{acf} not in exceptions, trying to delete")
             try:
                 if os.path.isfile(file_path) and os.path.exists(file_path) and "vdf" not in file_path:
                     os.remove(file_path)
@@ -120,11 +124,38 @@ def clean_steam_downloading_content():
     logger.info("Cleaning downloading steam content is complete")
 
 
+def clean_vk_play_content():
+    logger.info("Cleaning VK Play content has started")
+    folder_to_clean = r"D:\Games\Game Centre"
+    content_not_to_clean = exceptions.get_vk_exceptions()
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Game Centre\\')
+    logger.info("Cleaning VK Play content is complete")
+
+
+def clean_ubisoft_content():
+    logger.info("Cleaning Ubisoft Games content has started")
+    folder_to_clean = r"D:\Games\Ubisoft Game Launcher\games"
+    content_not_to_clean = exceptions.get_ubisoft_exceptions()
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Ubisoft Game Launcher\\games\\')
+    logger.info("Cleaning Ubisoft Games content is complete")
+
+
+def clean_battlenet_content():
+    logger.info("Cleaning Battle Net content has started")
+    folder_to_clean = r"D:\Games\Battle.net"
+    content_not_to_clean = exceptions.get_battlenet_exceptions()
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\')
+    logger.info("Cleaning Battle Net content is complete")
+
+
 def clean():
     clean_chrome_downloads()
     clean_steam_workshop_content()
     clean_steam_downloading_content()
-    clean_steam_games()
-    clean_egs_games()
+    clean_steam_content()
+    clean_egs_content()
+    clean_vk_play_content()
+    clean_ubisoft_content()
+    clean_battlenet_content()
     clean_games_root_dir()
     clean_root_dir()
