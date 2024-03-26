@@ -1,6 +1,7 @@
 import os
 import shutil
 import exceptions
+import re
 from logging_config import logger
 
 
@@ -19,7 +20,7 @@ def clean_dir(directory):
             logger.error(f"Error on delete, path: {file_path}: {e}")
 
 
-def clean_dir_with_exceptions(directory, exceptions, content_folder='none'):
+def clean_dir_with_exceptions(directory, exceptions, content_folder='none', regex_exceptions=None):
     for dir_folder in os.listdir(directory):
         dir_path = os.path.join(directory, dir_folder)
         dir_name = dir_path
@@ -28,6 +29,8 @@ def clean_dir_with_exceptions(directory, exceptions, content_folder='none'):
         if dir_name in exceptions:
             continue
         else:
+            if regex_exceptions and any(re.match(regex, dir_name) for regex in regex_exceptions):
+                continue
             try:
                 logger.info(f"Deleting file/directory, path: {dir_path}")
                 if os.path.isdir(dir_path) and os.path.exists(dir_path):
@@ -144,7 +147,8 @@ def clean_battlenet_content():
     logger.info("Cleaning Battle Net content has started")
     folder_to_clean = r"D:\Games\Battle.net"
     content_not_to_clean = exceptions.get_battlenet_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\')
+    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\',
+                              ['^\.battle\.net$|^Battle\.net\.\d+$|^Battle\.net Launcher$'])
     logger.info("Cleaning Battle Net content is complete")
 
 
