@@ -139,7 +139,8 @@ def clean_ubisoft_content():
     logger.info("Cleaning Ubisoft Games content has started")
     folder_to_clean = r"D:\Games\Ubisoft Game Launcher\games"
     content_not_to_clean = exceptions.get_ubisoft_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Ubisoft Game Launcher\\games\\')
+    if os.path.exists(folder_to_clean):
+        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Ubisoft Game Launcher\\games\\')
     logger.info("Cleaning Ubisoft Games content is complete")
 
 

@@ -3,7 +3,7 @@ import disk_info
 import subscription
 from logging_config import logger
 
-if subscription.check_subscription():
+if subscription.check_subscription() == "True":
     print("Действие подписки закончилось, требуется продлить подписку\n")
     logger.info("Cleaning has not started, subscription expired")
 else:
