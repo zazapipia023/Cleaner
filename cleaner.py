@@ -45,8 +45,7 @@ def clean_dir_with_exceptions(directory, exceptions, content_folder='none', rege
 
 def clean_root_dir():
     logger.info("Cleaning disk root directory has started")
-    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
-                 r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
+    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games"]
     folder_to_clean = "D:\\"
     clean_dir_with_exceptions(folder_to_clean, root_dirs)
     logger.info("Cleaning disk root directory is complete")
@@ -55,11 +54,11 @@ def clean_root_dir():
 def clean_games_root_dir():
     logger.info("Cleaning games root directory has started")
     games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
-                       r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
-                       r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
+                       r"D:\Games\GameCenter", r"D:\Games\Innova", r"D:\Games\ESEA",
+                       r"D:\Games\Lesta", r"D:\Games\RentalGames", r"D:\Games\Portable", r"D:\Games\Riot Games",
                        r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
-                       r"D:\Games\Ubisoft Game Launcher",
-                       r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
+                       r"D:\Games\Ubisoft Game Launcher", r"D:\Games\Tanks_Blitz",
+                       r"D:\Games\tarkov", r"D:\Games\Игры без аккаунтов"]
     folder_to_clean = r"D:\Games"
     clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
     logger.info("Cleaning games root directory is complete")
@@ -129,7 +128,7 @@ def clean_steam_downloading_content():
 
 def clean_vk_play_content():
     logger.info("Cleaning VK Play content has started")
-    folder_to_clean = r"D:\Games\Game Centre"
+    folder_to_clean = r"D:\Games\GameCenter"
     content_not_to_clean = exceptions.get_vk_exceptions()
     clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Game Centre\\')
     logger.info("Cleaning VK Play content is complete")
