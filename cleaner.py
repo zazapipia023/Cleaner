@@ -45,8 +45,7 @@ def clean_dir_with_exceptions(directory, exceptions, content_folder='none', rege
 
 def clean_root_dir():
     logger.info("Cleaning disk root directory has started")
-    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
-                 r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
+    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games", r"D:\AacKBSetup", r"D:\Загрузки uFiler"]
     folder_to_clean = "D:\\"
     clean_dir_with_exceptions(folder_to_clean, root_dirs)
     logger.info("Cleaning disk root directory is complete")
@@ -55,11 +54,9 @@ def clean_root_dir():
 def clean_games_root_dir():
     logger.info("Cleaning games root directory has started")
     games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
-                       r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
-                       r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
-                       r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
-                       r"D:\Games\Ubisoft Game Launcher",
-                       r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
+                       r"D:\Games\Game Centre", r"D:\Games\Lesta", r"D:\Games\Portable", r"D:\Games\Riot Games",
+                       r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki", r"D:\Games\Tanks_Blitz",
+                       r"D:\Games\Ubisoft Game Launcher", r"D:\Games\WarThunder", r"D:\Games\tarkov"]
     folder_to_clean = r"D:\Games"
     clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
     logger.info("Cleaning games root directory is complete")
@@ -161,6 +158,5 @@ def clean():
     clean_egs_content()
     clean_vk_play_content()
     clean_ubisoft_content()
-    clean_battlenet_content()
     clean_games_root_dir()
     clean_root_dir()

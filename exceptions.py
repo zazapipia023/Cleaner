@@ -1,11 +1,11 @@
 import requests
 import json
 
-BASE_URL = "http://localhost:8080/exceptions/"
+BASE_URL = "http://81.200.145.178:8080/exceptions/"
 
 
 def get_exceptions(platform):
-    url = f"{BASE_URL}{platform}?clubId=id"
+    url = f"{BASE_URL}{platform}?clubId=253-0"
     r = requests.get(url)
     return json.loads(r.text)
 

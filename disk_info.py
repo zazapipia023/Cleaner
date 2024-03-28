@@ -37,14 +37,14 @@ def send_disk_info(space_before, space_after):
     space_before = int(space_before / (1024 ** 3))
     space_after = int(space_after / (1024 ** 3))
 
-    report = {'club_id': "id",
+    report = {'club_id': "253-0",
               'totals': total_space,
               'free_b': space_before,
               'free_a': space_after,
               'pc': hostname,
               'ip': IP}
 
-    url = f"http://localhost:8080/report"
+    url = f"http://81.200.145.178:8080/report"
     logger.info("Sending report")
     r = requests.post(url, json=report)
     logger.info("Sent report about cleaning. Status: " + r.text)
