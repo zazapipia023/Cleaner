@@ -146,7 +146,10 @@ def clean_battlenet_content():
     folder_to_clean = r"D:\Games\Battle.net"
     content_not_to_clean = exceptions.get_battlenet_exceptions()
     clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\',
-                              ['^\.battle\.net$|^Battle\.net\.\d+$|^Battle\.net Launcher$'])
+                              ['^\.battle\.net$|^Battle\.net\.\d+$|^Battle\.net '
+                               'Launcher$|^Battle\.net\.exe$|^Battle\.net '
+                               'Launcher\.exe$|\.patch\.result$|\.product\.db$|Launcher\.db$|Microsoft\.Gaming'
+                               '\.XboxApp\.Extensions\.winmd$'])
     logger.info("Cleaning Battle Net content is complete")
 
 
