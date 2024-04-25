@@ -44,43 +44,55 @@ def clean_dir_with_exceptions(directory, exceptions, content_folder='none', rege
 
 
 def clean_root_dir():
-    logger.info("Cleaning disk root directory has started")
-    root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
-                 r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
-    folder_to_clean = "D:\\"
-    clean_dir_with_exceptions(folder_to_clean, root_dirs)
-    logger.info("Cleaning disk root directory is complete")
+    try:
+        logger.info("Cleaning disk root directory has started")
+        root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
+                     r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
+        folder_to_clean = "D:\\"
+        clean_dir_with_exceptions(folder_to_clean, root_dirs)
+        logger.info("Cleaning disk root directory is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during root folder cleaning: {e}")
 
 
 def clean_games_root_dir():
-    logger.info("Cleaning games root directory has started")
-    games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
-                       r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
-                       r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
-                       r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
-                       r"D:\Games\Ubisoft Game Launcher",
-                       r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
-    folder_to_clean = r"D:\Games"
-    clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
-    logger.info("Cleaning games root directory is complete")
+    try:
+        logger.info("Cleaning games root directory has started")
+        games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
+                           r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
+                           r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
+                           r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
+                           r"D:\Games\Ubisoft Game Launcher",
+                           r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
+        folder_to_clean = r"D:\Games"
+        clean_dir_with_exceptions(folder_to_clean, games_root_dirs)
+        logger.info("Cleaning games root directory is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during games folder cleaning: {e}")
 
 
 def clean_egs_content():
-    logger.info("Cleaning EGS games has started")
-    folder_to_clean = r"D:\Games\Epic Games"
-    content_not_to_clean = exceptions.get_egs_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Epic Games\\')
-    logger.info("Cleaning EGS games is complete")
+    try:
+        logger.info("Cleaning EGS games has started")
+        folder_to_clean = r"D:\Games\Epic Games"
+        content_not_to_clean = exceptions.get_egs_exceptions()
+        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Epic Games\\')
+        logger.info("Cleaning EGS games is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during EGS content cleaning: {e}")
 
 
 def clean_steam_content():
-    logger.info("Cleaning steam games has started")
-    folder_to_clean = r"D:\Games\Steam\steamapps\common"
-    content_not_to_clean = exceptions.get_steam_exceptions()
-    manifest_not_to_clean = exceptions.get_manifest_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Steam\\steamapps\\common\\')
-    clean_manifest_files(manifest_not_to_clean)
-    logger.info("Cleaning steam games is complete")
+    try:
+        logger.info("Cleaning steam games has started")
+        folder_to_clean = r"D:\Games\Steam\steamapps\common"
+        content_not_to_clean = exceptions.get_steam_exceptions()
+        manifest_not_to_clean = exceptions.get_manifest_exceptions()
+        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Steam\\steamapps\\common\\')
+        clean_manifest_files(manifest_not_to_clean)
+        logger.info("Cleaning steam games is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Steam content cleaning: {e}")
 
 
 def clean_manifest_files(acf_arr):
@@ -107,53 +119,72 @@ def clean_manifest_files(acf_arr):
 
 
 def clean_chrome_downloads():
-    logger.info("Cleaning chrome downloads has started")
-    folder_to_clean = r"D:\ChromeDownloads"
-    clean_dir(folder_to_clean)
-    logger.info("Cleaning chrome downloads is complete")
+    try:
+        logger.info("Cleaning chrome downloads has started")
+        folder_to_clean = r"D:\ChromeDownloads"
+        clean_dir(folder_to_clean)
+        logger.info("Cleaning chrome downloads is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Chrome downloads cleaning: {e}")
 
 
 def clean_steam_workshop_content():
-    logger.info("Cleaning workshop content has started")
-    folder_to_clean = r"D:\Games\Steam\steamapps\workshop"
-    clean_dir(folder_to_clean)
-    logger.info("Cleaning workshop content is complete")
+    try:
+        logger.info("Cleaning workshop content has started")
+        folder_to_clean = r"D:\Games\Steam\steamapps\workshop"
+        clean_dir(folder_to_clean)
+        logger.info("Cleaning workshop content is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Steam workshop content cleaning: {e}")
 
 
 def clean_steam_downloading_content():
-    logger.info("Cleaning downloading steam content has started")
-    folder_to_clean = r"D:\Games\Steam\steamapps\downloading"
-    clean_dir(folder_to_clean)
-    logger.info("Cleaning downloading steam content is complete")
+    try:
+        logger.info("Cleaning downloading steam content has started")
+        folder_to_clean = r"D:\Games\Steam\steamapps\downloading"
+        clean_dir(folder_to_clean)
+        logger.info("Cleaning downloading steam content is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Steam downloading content cleaning: {e}")
 
 
 def clean_vk_play_content():
-    logger.info("Cleaning VK Play content has started")
-    folder_to_clean = r"D:\Games\Game Centre"
-    content_not_to_clean = exceptions.get_vk_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Game Centre\\')
-    logger.info("Cleaning VK Play content is complete")
+    try:
+        logger.info("Cleaning VK Play content has started")
+        folder_to_clean = r"D:\Games\Game Centre"
+        content_not_to_clean = exceptions.get_vk_exceptions()
+        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Game Centre\\')
+        logger.info("Cleaning VK Play content is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during VK Play content cleaning: {e}")
 
 
 def clean_ubisoft_content():
-    logger.info("Cleaning Ubisoft Games content has started")
-    folder_to_clean = r"D:\Games\Ubisoft Game Launcher\games"
-    content_not_to_clean = exceptions.get_ubisoft_exceptions()
-    if os.path.exists(folder_to_clean):
-        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Ubisoft Game Launcher\\games\\')
-    logger.info("Cleaning Ubisoft Games content is complete")
+    try:
+        logger.info("Cleaning Ubisoft Games content has started")
+        folder_to_clean = r"D:\Games\Ubisoft Game Launcher\games"
+        content_not_to_clean = exceptions.get_ubisoft_exceptions()
+        if os.path.exists(folder_to_clean):
+            clean_dir_with_exceptions(folder_to_clean, content_not_to_clean,
+                                      'D:\\Games\\Ubisoft Game Launcher\\games\\')
+        logger.info("Cleaning Ubisoft Games content is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Ubisoft content cleaning: {e}")
 
 
 def clean_battlenet_content():
-    logger.info("Cleaning Battle Net content has started")
-    folder_to_clean = r"D:\Games\Battle.net"
-    content_not_to_clean = exceptions.get_battlenet_exceptions()
-    clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\',
-                              ['^\.battle\.net$|^Battle\.net\.\d+$|^Battle\.net '
-                               'Launcher$|^Battle\.net\.exe$|^Battle\.net '
-                               'Launcher\.exe$|\.patch\.result$|\.product\.db$|Launcher\.db$|Microsoft\.Gaming'
-                               '\.XboxApp\.Extensions\.winmd$'])
-    logger.info("Cleaning Battle Net content is complete")
+    try:
+        logger.info("Cleaning Battle Net content has started")
+        folder_to_clean = r"D:\Games\Battle.net"
+        content_not_to_clean = exceptions.get_battlenet_exceptions()
+        clean_dir_with_exceptions(folder_to_clean, content_not_to_clean, 'D:\\Games\\Battle.net\\',
+                                  ['^\.battle\.net$|^Battle\.net\.\d+$|^Battle\.net '
+                                   'Launcher$|^Battle\.net\.exe$|^Battle\.net '
+                                   'Launcher\.exe$|\.patch\.result$|\.product\.db$|Launcher\.db$|Microsoft\.Gaming'
+                                   '\.XboxApp\.Extensions\.winmd$'])
+        logger.info("Cleaning Battle Net content is complete")
+    except Exception as e:
+        logger.error(f"An error occurred during Battle Net content cleaning: {e}")
 
 
 def clean():
