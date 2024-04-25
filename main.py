@@ -3,7 +3,7 @@ import disk_info
 import subscription
 from logging_config import logger
 
-if subscription.check_subscription() == "True":
+if subscription.check_subscription() == "true":
     print("Действие подписки закончилось, требуется продлить подписку\n")
     logger.info("Cleaning has not started, subscription expired")
 else:
@@ -15,4 +15,4 @@ else:
     disk_info.send_disk_info(before_clean_space, after_clean_space)
     logger.info("Cleaning is complete")
 
-input("Очистка завершена, нажмите Enter для выхода")
+input("Нажмите Enter для выхода")
