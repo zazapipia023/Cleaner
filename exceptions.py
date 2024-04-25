@@ -1,13 +1,19 @@
 import requests
 import json
+from logging_config import logger
 
 BASE_URL = "http://81.200.145.178:8080/exceptions/"
 
 
 def get_exceptions(platform):
     url = f"{BASE_URL}{platform}?clubId=141-0"
-    r = requests.get(url)
-    return json.loads(r.text)
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        return json.loads(r.text)
+    except Exception as e:
+        logger.error(f"Failed to fetch exceptions for {platform}: {e}")
+        return []
 
 
 def get_steam_exceptions():
