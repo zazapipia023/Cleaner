@@ -6,7 +6,7 @@ BASE_URL = "http://localhost:8080/exceptions/"
 
 
 def get_exceptions(platform):
-    url = f"{BASE_URL}{platform}?clubId=id"
+    url = f"{BASE_URL}{platform}"
     try:
         r = requests.get(url)
         r.raise_for_status()
@@ -25,15 +25,11 @@ def get_manifest_exceptions():
 
 
 def get_egs_exceptions():
-    return get_exceptions("egs")
+    return get_exceptions("epic")
 
 
 def get_vk_exceptions():
     return get_exceptions("vk")
-
-
-def get_ubisoft_exceptions():
-    return get_exceptions("ubisoft")
 
 
 def get_battlenet_exceptions():

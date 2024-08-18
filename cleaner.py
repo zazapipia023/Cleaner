@@ -47,7 +47,8 @@ def clean_root_dir():
     try:
         logger.info("Cleaning disk root directory has started")
         root_dirs = [r"D:\ChromeDownloads", r"D:\ColizeumUtil", r"D:\Games",
-                     r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk"]
+                     r"D:\Игры", r"D:\Клубные аккаунты.lnk", r"D:\Игры без аккаунтов.lnk",
+                     r"D:\Program Files"]
         folder_to_clean = "D:\\"
         clean_dir_with_exceptions(folder_to_clean, root_dirs)
         logger.info("Cleaning disk root directory is complete")
@@ -60,7 +61,7 @@ def clean_games_root_dir():
         logger.info("Cleaning games root directory has started")
         games_root_dirs = [r"D:\Games\Battle.net", r"D:\Games\BsgLauncher", r"D:\Games\Epic Games",
                            r"D:\Games\Game Centre", r"D:\Games\Genshin Impact", r"D:\Games\Innova",
-                           r"D:\Games\Lesta", r"D:\Games\Minecraft", r"D:\Games\Portable", r"D:\Games\Riot Games",
+                           r"D:\Games\Lesta", r"D:\Games\Portable", r"D:\Games\Riot Games",
                            r"D:\Games\Rockstar Games", r"D:\Games\Steam", r"D:\Games\Tanki",
                            r"D:\Games\Ubisoft Game Launcher",
                            r"D:\Games\tarkov", r"D:\Games\RAGEMP"]
@@ -163,10 +164,7 @@ def clean_ubisoft_content():
     try:
         logger.info("Cleaning Ubisoft Games content has started")
         folder_to_clean = r"D:\Games\Ubisoft Game Launcher\games"
-        content_not_to_clean = exceptions.get_ubisoft_exceptions()
-        if os.path.exists(folder_to_clean):
-            clean_dir_with_exceptions(folder_to_clean, content_not_to_clean,
-                                      'D:\\Games\\Ubisoft Game Launcher\\games\\')
+        clean_dir(folder_to_clean)
         logger.info("Cleaning Ubisoft Games content is complete")
     except Exception as e:
         logger.error(f"An error occurred during Ubisoft content cleaning: {e}")
